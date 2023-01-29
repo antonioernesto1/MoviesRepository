@@ -1,12 +1,12 @@
-﻿using System;
+﻿using MoviesRepository.Domain;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MoviesRepository.Data.Repositories.Interfaces
 {
     public interface ICategoriaRepository
     {
+        Task<List<Categoria>> GetCategorias(bool includeFilmes, bool includeSeries);
+        Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries);
     }
 }

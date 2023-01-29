@@ -13,12 +13,12 @@ namespace MoviesRepository.Data
         public AppDbContext(DbContextOptions options) : base(options)
         {
         }
-        public Filme Filmes { get; set; }
-        public Serie Series { get; set; }
-        public Ator Atores { get; set; }
-        public Episodio Episodios { get; set; }
-        public Temporada Temporadas { get; set; }
-        public Categoria Categorias { get; set; }
+        public DbSet<Filme> Filmes { get; set; }
+        public DbSet<Serie> Series { get; set; }
+        public DbSet<Ator> Atores { get; set; }
+        public DbSet<Episodio> Episodios { get; set; }
+        public DbSet<Temporada> Temporadas { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

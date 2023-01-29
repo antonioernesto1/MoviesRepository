@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoviesRepository.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,10 @@ namespace MoviesRepository.Application.Services.Interfaces
 {
     public interface IFilmeService
     {
+        Task<bool> AddFilme(Filme model);
+        Task<bool> UpdateFilme(int id, Filme model);
+        Task<bool> DeleteFilme(int id);
+        Task<Filme> GetFilmeById(int id, bool includeAtores);
+        Task<List<Filme>> GetFilmes(bool includeAtores);
     }
 }
