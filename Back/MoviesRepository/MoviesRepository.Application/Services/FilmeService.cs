@@ -35,15 +35,11 @@ namespace MoviesRepository.Application.Services
             }
         }
 
-        public async Task<bool> DeleteFilme(int id)
+        public async Task<bool> DeleteFilme(Filme model)
         {
             try
             {
-                var filme = await _filmeRepository.GetFilmeById(id, false);
-                if (filme == null)
-                    return false;
-
-                _context.Delete(filme);
+                _context.Delete(model);
 
                 if (await _context.SaveChangesAsync() == true)
                     return true;
@@ -90,10 +86,6 @@ namespace MoviesRepository.Application.Services
         {
             try
             {
-                var filme = await _filmeRepository.GetFilmeById(id, false);
-                if (filme == null)
-                    return false;
-
                 model.Id = id;
                 _context.Update(model);
 

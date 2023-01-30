@@ -35,15 +35,11 @@ namespace MoviesRepository.Application.Services
             }
         }
 
-        public async Task<bool> DeleteCategoria(int id)
+        public async Task<bool> DeleteCategoria(Categoria model)
         {
             try
             {
-                var categoria = _categoriaRepository.GetCategoriaById(id, false, false);
-                if (categoria == null)
-                    return false;
-
-                _context.Delete(categoria);
+                _context.Delete(model);
 
                 if (await _context.SaveChangesAsync() == true)
                     return true;
@@ -90,10 +86,6 @@ namespace MoviesRepository.Application.Services
         {
             try
             {
-                var categoria = _categoriaRepository.GetCategoriaById(id, false, false);
-                if (categoria == null)
-                    return false;
-
                 model.Id = id;
                 _context.Update(model);
 

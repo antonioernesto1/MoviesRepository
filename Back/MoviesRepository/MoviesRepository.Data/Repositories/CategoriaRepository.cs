@@ -15,7 +15,7 @@ namespace MoviesRepository.Data.Repositories
         public CategoriaRepository(AppDbContext context)
         {
             _context = context;
-            context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
         public async Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries)
         {

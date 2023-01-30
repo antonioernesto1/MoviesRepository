@@ -87,11 +87,7 @@ namespace MoviesRepository.Application.Services
         public async Task<bool> UpdateAtor(int id, Ator model)
         {
             try
-            {
-                var ator = _atorRepository.GetAtorById(id, false, false);
-                if (ator == null)
-                    return false;
-
+            {     
                 model.Id = id;
                 _context.Update(model);
 

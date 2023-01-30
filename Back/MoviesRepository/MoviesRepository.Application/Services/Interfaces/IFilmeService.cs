@@ -11,7 +11,7 @@ namespace MoviesRepository.Application.Services.Interfaces
     {
         Task<bool> AddFilme(Filme model);
         Task<bool> UpdateFilme(int id, Filme model);
-        Task<bool> DeleteFilme(int id);
+        Task<bool> DeleteFilme(Filme model);
         Task<Filme> GetFilmeById(int id, bool includeAtores);
         Task<List<Filme>> GetFilmes(bool includeAtores);
     }

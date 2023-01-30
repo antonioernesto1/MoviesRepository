@@ -26,7 +26,12 @@ builder.Services.AddScoped<ISerieService, SerieService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IAtorService, AtorService>();
 
-builder.Services.AddControllers();
+builder.Services.AddCors();
+
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+        options.SerializerSettings.ReferenceLoopHandling =
+        Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -38,6 +43,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(x =>
+    x.AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowAnyOrigin());
 
 app.UseHttpsRedirection();
 

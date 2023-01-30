@@ -31,6 +31,7 @@ namespace MoviesRepository.Data.Repositories
 
         public void Update<T>(T entity) where T : class
         {
+            _context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             _context.Update(entity);
         }
     }
