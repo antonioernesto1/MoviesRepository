@@ -52,11 +52,11 @@ namespace MoviesRepository.Application.Services
             }
         }
 
-        public async Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries)
+        public async Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries, bool tracking)
         {
             try
             {
-                var categoria = await _categoriaRepository.GetCategoriaById(id, includeFilmes, includeSeries);
+                var categoria = await _categoriaRepository.GetCategoriaById(id, includeFilmes, includeSeries, tracking);
                 if (categoria == null)
                     return null;
                 return categoria;

@@ -17,6 +17,8 @@ namespace MoviesRepository.Domain
         public string? PosterUrl { get; set; }
         public List<Ator>? Atores { get; set; }
         public List<Temporada>? Temporadas { get; set; }
-        public List<Categoria> Categorias { get; set; }
+        public List<Categoria>? Categorias { get; set; }
+        public List<AtorSerie> AtoresSeries { get; set; }
+        public List<CategoriaSerie> CategoriasSeries { get; set; }
     }
 }

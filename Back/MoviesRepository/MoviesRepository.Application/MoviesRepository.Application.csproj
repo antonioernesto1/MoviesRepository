@@ -12,11 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
-    <Folder Include="Profiles\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MoviesRepository.Data\MoviesRepository.Data.csproj" />
     <ProjectReference Include="..\MoviesRepository.Domain\MoviesRepository.Domain.csproj" />
   </ItemGroup>

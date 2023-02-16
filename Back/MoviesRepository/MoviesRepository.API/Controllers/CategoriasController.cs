@@ -36,7 +36,7 @@ namespace MoviesRepository.API.Controllers
             {
                 if (id <= 0)
                     return BadRequest("Id inválido");
-                var categoria = await _service.GetCategoriaById(id, includeFilmes, includeSeries);
+                var categoria = await _service.GetCategoriaById(id, includeFilmes, includeSeries, false);
                 if (categoria == null)
                     return NotFound("Nenhuma categoria encontrada");
                 return Ok(categoria);
@@ -69,7 +69,7 @@ namespace MoviesRepository.API.Controllers
             {
                 if (id <= 0)
                     return BadRequest("Id inválido");
-                var categoria = await _service.GetCategoriaById(id, false, false);
+                var categoria = await _service.GetCategoriaById(id, false, false, false);
                 if (categoria == null)
                     return NotFound("Nenhuma categoria encontrada");
                 if (await _service.DeleteCategoria(categoria) == false)
@@ -88,7 +88,7 @@ namespace MoviesRepository.API.Controllers
             {
                 if (id <= 0)
                     return BadRequest("Id inválido");
-                var categoria = await _service.GetCategoriaById(id, false, false);
+                var categoria = await _service.GetCategoriaById(id, false, false, false);
                 if (categoria == null)
                     return NotFound("Nenhuma categoria encontrada");
                 if (await _service.UpdateCategoria(id, model) == false)

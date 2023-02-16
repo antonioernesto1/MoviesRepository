@@ -7,11 +7,13 @@ import { Filme } from 'src/app/models/filme';
   providedIn: 'root',
 })
 export class FilmeService {
-  private apiUrl: string =
-    'https://localhost:7221/api/Filmes?includeAtores=false';
+  private apiUrl: string = 'https://localhost:7221/api/Filmes';
   constructor(private http: HttpClient) {}
 
   public getAllFilmes(): Observable<Filme[]> {
     return this.http.get<Filme[]>(this.apiUrl);
+  }
+  public getFilmeById(id: number): Observable<Filme> {
+    return this.http.get<Filme>(`${this.apiUrl}/${id}`);
   }
 }

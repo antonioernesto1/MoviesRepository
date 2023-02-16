@@ -12,7 +12,7 @@ namespace MoviesRepository.Application.Services.Interfaces
         Task<bool> AddCategoria(Categoria model);
         Task<bool> UpdateCategoria(int id, Categoria model);
         Task<bool> DeleteCategoria(Categoria model);
-        Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries);
+        Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries, bool tracking);
         Task<List<Categoria>> GetCategorias(bool includeFilmes, bool includeSeries);
 
     }

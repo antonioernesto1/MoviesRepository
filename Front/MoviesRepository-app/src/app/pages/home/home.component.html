@@ -1,6 +1,17 @@
 <section class="filmes-section">
-  <div *ngFor="let filme of filmes" class="container-filmes">
+  <div class="container">
     <h3>Filmes</h3>
-    <app-card-filme [filme]="filme"></app-card-filme>
+    <div class="filmes_list">
+      <app-card-filme *ngFor="let filme of filmes" [filme]="filme"></app-card-filme>
+    </div>
+  </div>
+</section>
+
+<section class="series-section">
+  <div class="container">
+    <h3>Séries</h3>
+    <div class="series_list">
+      <app-card-serie *ngFor="let serie of series" [serie]="serie"></app-card-serie>
+    </div>
   </div>
 </section>

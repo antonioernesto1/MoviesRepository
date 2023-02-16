@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MoviesRepository.Application.DTOs;
 using MoviesRepository.Application.Services.Interfaces;
 using MoviesRepository.Domain;
 
@@ -52,7 +53,7 @@ namespace MoviesRepository.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Filme filme)
+        public async Task<IActionResult> Post([FromBody] FilmeInputModel filme)
         {
             try
             {
@@ -91,7 +92,7 @@ namespace MoviesRepository.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, [FromBody] Filme model)
+        public async Task<IActionResult> Put(int id, [FromBody] FilmeInputModel model)
         {
             try
             {
@@ -103,8 +104,8 @@ namespace MoviesRepository.API.Controllers
                     return NotFound("Nenhum filme encontrado");
 
                 if (await _service.UpdateFilme(id, model) == false)
-                    return BadRequest("Erro ao remover o filme");
-                return Ok("Filme removido com sucesso");
+                    return BadRequest("Erro ao alterar os dados do filme");
+                return Ok("Filme alterado com sucesso");
             }
             catch (Exception e)
             {

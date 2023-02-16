@@ -18,6 +18,19 @@
   color: white;
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 130px;
+}
+.info_nome_filme {
+  margin-top: 5px;
+  height: 80px;
+  word-wrap: break-word;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 a {
   padding: 5px;

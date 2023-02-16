@@ -15,11 +15,15 @@ namespace MoviesRepository.Data.Repositories
         public CategoriaRepository(AppDbContext context)
         {
             _context = context;
-            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            //_context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
-        public async Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries)
+        public async Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries, bool tracking)
         {
             var query = _context.Categorias.AsQueryable();
+            if (tracking == false)
+            {
+                query.AsNoTracking();
+            }
             if (includeFilmes == true)
                 query = query.Include(x => x.Filmes);
             if (includeSeries == true)
@@ -29,7 +33,7 @@ namespace MoviesRepository.Data.Repositories
 
         public async Task<List<Categoria>> GetCategorias(bool includeFilmes, bool includeSeries)
         {
-            var query = _context.Categorias.AsQueryable();
+            var query = _context.Categorias.AsQueryable().AsNoTracking();
             if (includeFilmes == true)
                 query = query.Include(x => x.Filmes);
             if (includeSeries == true)

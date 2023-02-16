@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using MoviesRepository.Application.Profiles;
 using MoviesRepository.Application.Services;
 using MoviesRepository.Application.Services.Interfaces;
 using MoviesRepository.Data;
@@ -20,11 +21,18 @@ builder.Services.AddScoped<IFilmeRepository, FilmeRepository>();
 builder.Services.AddScoped<IAtorRepository, AtorRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IRepository, Repository>();
+builder.Services.AddScoped<ICategoriaFilmeRepository, CategoriaFilmeRepository>();
+builder.Services.AddScoped<ICategoriaSerieRepository, CategoriaSerieRepository>();
+
 //Camada de serviços
 builder.Services.AddScoped<IFilmeService, FilmeService>();
 builder.Services.AddScoped<ISerieService, SerieService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();
 builder.Services.AddScoped<IAtorService, AtorService>();
+
+//AutoMapper
+builder.Services.AddAutoMapper(typeof(FilmeProfile));
+builder.Services.AddAutoMapper(typeof(SerieProfile));
 
 builder.Services.AddCors();
 

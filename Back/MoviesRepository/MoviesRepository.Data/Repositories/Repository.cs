@@ -22,6 +22,11 @@ namespace MoviesRepository.Data.Repositories
             _context.Remove(entity);
         }
 
+        public void DeleteRange<T>(T entity) where T : class
+        {
+            _context.RemoveRange(entity);
+        }
+
         public async Task<bool> SaveChangesAsync()
         {
             if (await _context.SaveChangesAsync() > 0)

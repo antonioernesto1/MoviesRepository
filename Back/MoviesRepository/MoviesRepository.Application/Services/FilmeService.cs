@@ -1,4 +1,6 @@
-﻿using MoviesRepository.Application.Services.Interfaces;
+﻿using AutoMapper;
+using MoviesRepository.Application.DTOs;
+using MoviesRepository.Application.Services.Interfaces;
 using MoviesRepository.Data.Repositories.Interfaces;
 using MoviesRepository.Domain;
 
@@ -8,21 +10,29 @@ namespace MoviesRepository.Application.Services
     {
         private readonly IRepository _context;
         private readonly IFilmeRepository _filmeRepository;
+        private readonly ICategoriaRepository _categoriaRepository;
+        private readonly ICategoriaFilmeRepository _categoriasFilmeRepository;
+        private readonly IMapper _mapper;
 
-        public FilmeService(IRepository context, IFilmeRepository filmeRepository)
+        public FilmeService(IRepository context, IFilmeRepository filmeRepository, ICategoriaFilmeRepository categoriasFilmeRepository, IMapper mapper, ICategoriaRepository categoriaRepository)
         {
             _context = context;
             _filmeRepository = filmeRepository;
+            _categoriasFilmeRepository = categoriasFilmeRepository;
+            _categoriaRepository = categoriaRepository;
+            _mapper = mapper;
         }
 
-        public async Task<bool> AddFilme(Filme model)
+        public async Task<bool> AddFilme(FilmeInputModel model)
         {
             try
             {
                 if (model == null)
                     return false;
 
-                _context.Add(model);
+                var filme = _mapper.Map<Filme>(model);
+                filme.Categorias = null;
+                _context.Add(filme);
 
                 if (await _context.SaveChangesAsync() == true)
                     return true;
@@ -34,7 +44,6 @@ namespace MoviesRepository.Application.Services
                 throw new Exception(e.Message);
             }
         }
-
         public async Task<bool> DeleteFilme(Filme model)
         {
             try
@@ -82,12 +91,30 @@ namespace MoviesRepository.Application.Services
             }
         }
 
-        public async Task<bool> UpdateFilme(int id, Filme model)
+        public async Task<bool> UpdateFilme(int id, FilmeInputModel model)
         {
             try
             {
-                model.Id = id;
-                _context.Update(model);
+                var filmeAntigo = await _filmeRepository.GetFilmeById(id, false);
+                if (filmeAntigo == null)
+                    return false;
+
+                var filme = _mapper.Map<Filme>(model);
+                filme.Categorias = await MapCategorias(model.CategoriasId);
+                //var ids = filme.Categorias.Select(x => x.Id).ToList();
+                var relacoesAtualizadasIds = model.CategoriasId;
+                var relacoesRemovidas = RelacoesRemovidas(id, relacoesAtualizadasIds, filmeAntigo.CategoriasFilmes);
+                var relacoesAdicionadas = RelacoesAdicionadas(id, relacoesAtualizadasIds, filmeAntigo.CategoriasFilmes.Select(x => x.CategoriaId).ToList());
+                foreach (var relacaoRemovida in relacoesRemovidas)
+                {
+                    _context.Delete(relacaoRemovida);
+                }
+                foreach (var relacaoAdicionada in relacoesAdicionadas)
+                {
+                    _context.Add(relacaoAdicionada);
+                }
+                filme.Id = id;
+                _context.Update(filme);
 
                 if (await _context.SaveChangesAsync() == true)
                     return true;
@@ -98,6 +125,39 @@ namespace MoviesRepository.Application.Services
             {
                 throw new Exception(e.Message);
             }
+        }
+        private async Task<List<Categoria>> MapCategorias(List<int> categoriasId)
+        {
+            var categorias = new List<Categoria>();
+            foreach (var categoriaId in categoriasId)
+            {
+                var categoria = await _categoriaRepository.GetCategoriaById(categoriaId, false, false, false);
+                if (categoria != null)
+                    categorias.Add(categoria);
+            }
+            return categorias;
+        }
+
+        private List<CategoriaFilme> RelacoesAdicionadas(int filmeId, List<int> relacoesAtualizadas, List<int> relacoesExistentes)
+        {
+            //var relacoes = _categoriasFilmeRepository.GetCategoriaFilmeByFilme(id).Select(r => r.CategoriaId).ToList();
+            var relacoesParaAdicionar = relacoesAtualizadas.Except(relacoesExistentes);
+            if (relacoesParaAdicionar.Count() == 0)
+                return null;
+            List<CategoriaFilme> relacoesAdicionadas = new List<CategoriaFilme>();
+            foreach (var relacaoParaAdicionar in relacoesParaAdicionar)
+            {
+                relacoesAdicionadas.Add(new CategoriaFilme { CategoriaId = relacaoParaAdicionar, FilmeId = filmeId });
+            }
+            return relacoesAdicionadas;
+
+        }
+
+        private List<CategoriaFilme> RelacoesRemovidas(int id, List<int> relacoesAtualizadas, List<CategoriaFilme> relacoesExistentes)
+        {
+            //var relacoes = _categoriasFilmeRepository.GetCategoriaFilmeByFilme(id).ToList();
+            var relacoesRemovidas = relacoesExistentes.Where(r => !relacoesAtualizadas.Contains(r.CategoriaId)).ToList();
+            return relacoesRemovidas;
         }
     }
 }

@@ -1,0 +1,10 @@
+<div class="container-card">
+  <img [src]="serie.capaUrl" alt="" class="card_img">
+  <div class="card_infos">
+    <a href="">{{serie.nome}}</a>
+    <div class="card_link_trailer">
+      <fa-icon [icon]="faPlay" class="icon"></fa-icon>
+      <a [href]="serie.trailerUrl" class="card_trailer" target="_blank">Trailer</a>
+    </div>
+  </div>
+</div>

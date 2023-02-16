@@ -10,7 +10,10 @@ namespace MoviesRepository.Domain
     {
         public int Id { get; set; }
         public string Nome { get; set; }
+        public string Foto { get; set; }
         public DateTime DataNascimento { get; set; }
+        public List<AtorFilme> AtoresFilmes { get; set; }
+        public List<AtorSerie> AtoresSeries { get; set; }
         public List<Filme>? Filmes { get; set; }
         public List<Serie>? Series { get; set; }
     }

@@ -22,7 +22,7 @@ namespace MoviesRepository.Data.Repositories
             var query = _context.Filmes.AsQueryable();
             if (includeAtores == true)
                 query = query.Include(x => x.Atores);
-            query = query.Include(x => x.Categorias);
+            query = query.Include(x => x.Categorias).Include(x => x.CategoriasFilmes);
             return await query.FirstOrDefaultAsync(x => x.Id == id);
         }
 
