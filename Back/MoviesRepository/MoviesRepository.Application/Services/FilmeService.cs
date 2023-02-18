@@ -31,7 +31,10 @@ namespace MoviesRepository.Application.Services
                     return false;
 
                 var filme = _mapper.Map<Filme>(model);
-                filme.Categorias = null;
+                filme.Categorias = new List<Categoria>();
+                filme.Categorias = await MapCategorias(model.CategoriasId, true);
+
+                _context.UpdateRange(filme.Categorias);
                 _context.Add(filme);
 
                 if (await _context.SaveChangesAsync() == true)
@@ -100,12 +103,11 @@ namespace MoviesRepository.Application.Services
                     return false;
 
                 var filme = _mapper.Map<Filme>(model);
-                filme.Categorias = await MapCategorias(model.CategoriasId);
-                //var ids = filme.Categorias.Select(x => x.Id).ToList();
                 var relacoesAtualizadasIds = model.CategoriasId;
                 var relacoesRemovidas = RelacoesRemovidas(id, relacoesAtualizadasIds, filmeAntigo.CategoriasFilmes);
                 var relacoesAdicionadas = RelacoesAdicionadas(id, relacoesAtualizadasIds, filmeAntigo.CategoriasFilmes.Select(x => x.CategoriaId).ToList());
-                foreach (var relacaoRemovida in relacoesRemovidas)
+ 
+                foreach(var relacaoRemovida in relacoesRemovidas)
                 {
                     _context.Delete(relacaoRemovida);
                 }
@@ -113,6 +115,7 @@ namespace MoviesRepository.Application.Services
                 {
                     _context.Add(relacaoAdicionada);
                 }
+                filme.Categorias = null;
                 filme.Id = id;
                 _context.Update(filme);
 
@@ -126,12 +129,12 @@ namespace MoviesRepository.Application.Services
                 throw new Exception(e.Message);
             }
         }
-        private async Task<List<Categoria>> MapCategorias(List<int> categoriasId)
+        private async Task<List<Categoria>> MapCategorias(List<int> categoriasId, bool track)
         {
             var categorias = new List<Categoria>();
             foreach (var categoriaId in categoriasId)
             {
-                var categoria = await _categoriaRepository.GetCategoriaById(categoriaId, false, false, false);
+                var categoria = await _categoriaRepository.GetCategoriaById(categoriaId, false, false, track);
                 if (categoria != null)
                     categorias.Add(categoria);
             }
@@ -142,8 +145,8 @@ namespace MoviesRepository.Application.Services
         {
             //var relacoes = _categoriasFilmeRepository.GetCategoriaFilmeByFilme(id).Select(r => r.CategoriaId).ToList();
             var relacoesParaAdicionar = relacoesAtualizadas.Except(relacoesExistentes);
-            if (relacoesParaAdicionar.Count() == 0)
-                return null;
+            /*if (relacoesParaAdicionar.Count() == 0)
+                return null;*/
             List<CategoriaFilme> relacoesAdicionadas = new List<CategoriaFilme>();
             foreach (var relacaoParaAdicionar in relacoesParaAdicionar)
             {

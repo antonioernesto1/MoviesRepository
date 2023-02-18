@@ -1,1 +1,31 @@
-<h1>Filme: {{filme?.nome}}</h1>
+<section class="filme-section">
+  <div class="filme__container">
+    <h2>{{filme.nome}}</h2>
+    <h3>Trailer</h3>
+    <div class="filme__media">
+      <iframe width="60%" height="460" allowFullscreen="true" style="border: 0;"
+        [src]="filme.trailerEmbedUrl | safe:'resourceUrl'">
+      </iframe>
+    </div>
+    <h3>Informações</h3>
+    <div class="filme__infos">
+      <div class="info__capa">
+        <img height="350px" [src]="filme.capaUrl" alt="">
+      </div>
+      <div class="infos">
+        <div class="container">
+          <p>Categorias:
+          </p>
+          <button class="categoria" *ngFor="let categoria of filme.categorias"><a
+              href="">{{categoria.nome}}</a></button>
+        </div>
+        <p class="filme__data-lancamento">Ano de lançamento: {{filme.anoLancamento}}</p>
+        <p class="filme__duracao">Duração: {{filme.duracao}}</p>
+        <div class="filme__sinopse">
+          <h3>Sinopse</h3>
+          <p>{{filme.sinopse}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

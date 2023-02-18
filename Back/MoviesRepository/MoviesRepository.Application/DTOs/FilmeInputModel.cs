@@ -14,6 +14,7 @@ namespace MoviesRepository.Application.DTOs
         public int AnoLancamento { get; set; }
         public string Duracao { get; set; }
         public string? TrailerUrl { get; set; }
+        public string? TrailerEmbedUrl { get; set; }
         public string? CapaUrl { get; set; }
         public string? PosterUrl { get; set; }
         //public List<int>? Atores { get; set; }
