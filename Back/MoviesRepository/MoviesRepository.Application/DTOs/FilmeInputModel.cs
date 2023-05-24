@@ -17,6 +17,8 @@ namespace MoviesRepository.Application.DTOs
         public string? TrailerEmbedUrl { get; set; }
         public string? CapaUrl { get; set; }
         public string? PosterUrl { get; set; }
+        public bool? isLancamento {get;set;}
+        public bool? isPopular { get; set; }
         //public List<int>? Atores { get; set; }
         public List<int>? CategoriasId { get; set; }
     }

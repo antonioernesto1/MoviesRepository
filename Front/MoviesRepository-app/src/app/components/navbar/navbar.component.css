@@ -10,10 +10,13 @@ header {
   justify-content: space-between;
   flex-wrap: wrap;
   background-color: black;
-  width: 50%;
+  width: 70%;
   padding: 12px;
   border-radius: 3px;
   margin-bottom: 10px;
+}
+.navbar_brand{
+  margin-top: 5px;
 }
 .navbar_right {
   display: flex;
@@ -22,6 +25,7 @@ header {
   display: flex;
   flex-wrap: wrap;
   margin-right: 20px;
+  margin-top: 5px;
 }
 .navbar_items ul {
   list-style: none;
@@ -50,6 +54,7 @@ a {
   border: 0;
   width: 90%;
   margin-left: 2px;
+  border-radius: 10px;
 }
 .navbar_pesquisa input:focus {
   box-shadow: 0 0 0 0;
@@ -58,6 +63,7 @@ a {
 .navbar_pesquisa button {
   background-color: white;
   border: 0;
+  border-radius: 10px;
 }
 .navbar_pesquisa button:hover {
   cursor: pointer;

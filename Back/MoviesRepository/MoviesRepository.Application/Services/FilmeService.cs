@@ -97,6 +97,37 @@ namespace MoviesRepository.Application.Services
             }
         }
 
+        public async Task<List<Filme>> GetLancamentos()
+        {
+            try
+            {
+                var filmes = await _filmeRepository.GetLancamentos();
+                if(!filmes.Any())
+                    return null;
+                return filmes;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
+        public async Task<List<Filme>> GetPopulares()
+        {
+            try
+            {
+                var filmes = await _filmeRepository.GetPopulares();
+                if(!filmes.Any())
+                    return null;
+                return filmes;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
+
         public async Task<bool> UpdateFilme(int id, FilmeInputModel model)
         {
             try

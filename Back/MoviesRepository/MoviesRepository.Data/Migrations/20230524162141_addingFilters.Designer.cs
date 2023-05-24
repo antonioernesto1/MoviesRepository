@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MoviesRepository.Data;
 
@@ -10,9 +11,10 @@ using MoviesRepository.Data;
 namespace MoviesRepository.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230524162141_addingFilters")]
+    partial class addingFilters
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -172,12 +174,6 @@ namespace MoviesRepository.Data.Migrations
 
                     b.Property<string>("TrailerUrl")
                         .HasColumnType("longtext");
-
-                    b.Property<bool?>("isLancamento")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<bool?>("isPopular")
-                        .HasColumnType("tinyint(1)");
 
                     b.HasKey("Id");
 

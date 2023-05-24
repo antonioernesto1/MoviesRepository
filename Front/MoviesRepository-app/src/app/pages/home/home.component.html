@@ -1,8 +1,13 @@
 <section class="filmes-section">
   <div class="container">
     <h3>Filmes</h3>
+    <h4>Títulos populares</h4>
     <div class="filmes_list">
-      <app-card-filme *ngFor="let filme of filmes" [filme]="filme"></app-card-filme>
+      <app-card-filme *ngFor="let filme of filmes_populares" [filme]="filme"></app-card-filme>
+    </div>
+    <h4>Últimos Lançamentos</h4>
+    <div class="filmes_list">
+      <app-card-filme *ngFor="let filme of filmes_lancamentos" [filme]="filme"></app-card-filme>
     </div>
   </div>
 </section>

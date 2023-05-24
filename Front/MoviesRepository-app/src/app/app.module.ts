@@ -13,6 +13,7 @@ import { CardSerieComponent } from './components/card-serie/card-serie.component
 import { CardAtorComponent } from './components/card-ator/card-ator.component';
 import { FilmeComponent } from './pages/filme/filme.component';
 import { SafePipe } from './helpers/safe.pipe';
+import { PesquisaComponent } from './pages/pesquisa/pesquisa.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { SafePipe } from './helpers/safe.pipe';
     CardAtorComponent,
     FilmeComponent,
     SafePipe,
+    PesquisaComponent,
   ],
   imports: [
     BrowserModule,

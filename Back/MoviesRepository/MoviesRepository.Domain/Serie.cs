@@ -16,6 +16,8 @@ namespace MoviesRepository.Domain
         public string? TrailerEmbedUrl { get; set; }
         public string? CapaUrl { get; set; }
         public string? PosterUrl { get; set; }
+        public bool? isPopular {get; set;}
+        public bool? isLancamento { get; set; }
         public List<Ator>? Atores { get; set; }
         public List<Temporada>? Temporadas { get; set; }
         public List<Categoria>? Categorias { get; set; }

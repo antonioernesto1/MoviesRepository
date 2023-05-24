@@ -32,6 +32,39 @@ namespace MoviesRepository.API.Controllers
                 return this.StatusCode(500, "Erro interno no servidor");
             }
         }
+        [HttpGet("lancamentos")]
+        public async Task<IActionResult> GetLancamentos()
+        {
+            try
+            {
+                var filmes = await _service.GetLancamentos();
+                if (filmes == null)
+                    return NotFound("Nenhum filme encontrado");
+                return Ok(filmes);
+            }
+            catch (Exception)
+            {
+
+                return this.StatusCode(500, "Erro interno no servidor");
+            }
+        }
+
+        [HttpGet("populares")]
+        public async Task<IActionResult> GetPopulares()
+        {
+            try
+            {
+                var filmes = await _service.GetPopulares();
+                if (filmes == null)
+                    return NotFound("Nenhum filme encontrado");
+                return Ok(filmes);
+            }
+            catch (Exception)
+            {
+
+                return this.StatusCode(500, "Erro interno no servidor");
+            }
+        }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id, bool includeAtores)

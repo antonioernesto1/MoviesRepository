@@ -13,6 +13,12 @@ export class FilmeService {
   public getAllFilmes(): Observable<Filme[]> {
     return this.http.get<Filme[]>(this.apiUrl);
   }
+  public getLancamentos(): Observable<Filme[]>{
+    return this.http.get<Filme[]>(`${this.apiUrl}/lancamentos`)
+  }
+  public getPopulares(): Observable<Filme[]>{
+    return this.http.get<Filme[]>(`${this.apiUrl}/populares`)
+  }
   public getFilmeById(id: number): Observable<Filme> {
     return this.http.get<Filme>(`${this.apiUrl}/${id}`);
   }
