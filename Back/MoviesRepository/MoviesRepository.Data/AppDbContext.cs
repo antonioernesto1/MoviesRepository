@@ -19,10 +19,6 @@ namespace MoviesRepository.Data
         public DbSet<Episodio> Episodios { get; set; }
         public DbSet<Temporada> Temporadas { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
-        public DbSet<AtorSerie> AtorSerie { get; set; }
-        public DbSet<AtorFilme> AtorFilme { get; set; }
-        public DbSet<CategoriaFilme> CategoriaFilme { get; set; }
-        public DbSet<CategoriaSerie> CategoriaSerie { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -34,7 +30,7 @@ namespace MoviesRepository.Data
 
             builder.Entity<CategoriaSerie>().HasKey(x => new { x.CategoriaId, x.SerieId });
 
-            /*builder.Entity<AtorFilme>()
+            builder.Entity<AtorFilme>()
                 .HasOne(x => x.Filme)
                 .WithMany(x => x.AtoresFilmes)
                 .HasForeignKey(x => x.FilmeId);
@@ -73,7 +69,6 @@ namespace MoviesRepository.Data
                 .HasOne(x => x.Categoria)
                 .WithMany(x => x.CategoriasSeries)
                 .HasForeignKey(x => x.CategoriaId);
-            */
             builder.Entity<Categoria>()
                 .HasMany(x => x.Filmes)
                 .WithMany(x => x.Categorias)

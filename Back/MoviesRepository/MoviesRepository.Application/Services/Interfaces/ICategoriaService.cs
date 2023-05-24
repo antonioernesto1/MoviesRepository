@@ -1,4 +1,5 @@
-﻿using MoviesRepository.Domain;
+﻿using MoviesRepository.Application.DTOs;
+using MoviesRepository.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace MoviesRepository.Application.Services.Interfaces
 {
     public interface ICategoriaService
     {
-        Task<bool> AddCategoria(Categoria model);
+        Task<bool> AddCategoria(CategoriaInputModel model);
         Task<bool> UpdateCategoria(int id, Categoria model);
         Task<bool> DeleteCategoria(Categoria model);
-        Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries, bool tracking);
+        Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries);
         Task<List<Categoria>> GetCategorias(bool includeFilmes, bool includeSeries);
 
     }

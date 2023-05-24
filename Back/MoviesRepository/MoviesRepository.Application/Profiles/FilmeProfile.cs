@@ -16,7 +16,8 @@ namespace MoviesRepository.Application.Profiles
 
         public FilmeProfile()
         {
-            CreateMap<FilmeInputModel, Filme>();
+            CreateMap<FilmeInputModel, Filme>()
+                .ForMember(dest => dest.Categorias, opt => opt.UseDestinationValue());
                 //.AfterMap(async (filmeInputModel, filme) => await MapCategorias(filmeInputModel, filme));
         }
     }

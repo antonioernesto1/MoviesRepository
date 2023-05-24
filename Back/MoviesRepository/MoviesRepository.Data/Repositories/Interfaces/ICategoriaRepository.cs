@@ -7,6 +7,6 @@ namespace MoviesRepository.Data.Repositories.Interfaces
     public interface ICategoriaRepository
     {
         Task<List<Categoria>> GetCategorias(bool includeFilmes, bool includeSeries);
-        Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries, bool tracking);
+        Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries);
     }
 }

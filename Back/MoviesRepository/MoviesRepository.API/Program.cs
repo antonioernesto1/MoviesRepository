@@ -7,24 +7,18 @@ using MoviesRepository.Data.Repositories;
 using MoviesRepository.Data.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var connectionString = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(
-        builder
-        .Configuration
-        .GetConnectionString("Default")));
+    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
-// Injeção de dependência
+// Injeï¿½ï¿½o de dependï¿½ncia
 // Camada de acesso a dados
 builder.Services.AddScoped<ISerieRepository, SerieRepository>();
 builder.Services.AddScoped<IFilmeRepository, FilmeRepository>();
 builder.Services.AddScoped<IAtorRepository, AtorRepository>();
 builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 builder.Services.AddScoped<IRepository, Repository>();
-builder.Services.AddScoped<ICategoriaFilmeRepository, CategoriaFilmeRepository>();
-builder.Services.AddScoped<ICategoriaSerieRepository, CategoriaSerieRepository>();
-
-//Camada de serviços
+//Camada de serviï¿½os
 builder.Services.AddScoped<IFilmeService, FilmeService>();
 builder.Services.AddScoped<ISerieService, SerieService>();
 builder.Services.AddScoped<ICategoriaService, CategoriaService>();

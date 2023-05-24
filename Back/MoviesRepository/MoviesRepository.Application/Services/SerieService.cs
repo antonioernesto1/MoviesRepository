@@ -133,7 +133,7 @@ namespace MoviesRepository.Application.Services
             var categorias = new List<Categoria>();
             foreach (var categoriaId in categoriasId)
             {
-                var categoria = await _categoriaRepository.GetCategoriaById(categoriaId, false, false, false);
+                var categoria = await _categoriaRepository.GetCategoriaById(categoriaId, false, false);
                 if (categoria != null)
                     categorias.Add(categoria);
             }

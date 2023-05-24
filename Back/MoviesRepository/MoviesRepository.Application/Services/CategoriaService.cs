@@ -1,4 +1,5 @@
-﻿using MoviesRepository.Application.Services.Interfaces;
+﻿using MoviesRepository.Application.DTOs;
+using MoviesRepository.Application.Services.Interfaces;
 using MoviesRepository.Data.Repositories.Interfaces;
 using MoviesRepository.Domain;
 
@@ -15,14 +16,16 @@ namespace MoviesRepository.Application.Services
             _categoriaRepository = categoriaRepository;
         }
 
-        public async Task<bool> AddCategoria(Categoria model)
+        public async Task<bool> AddCategoria(CategoriaInputModel model)
         {
             try
             {
+                
                 if (model == null)
                     return false;
-
-                _context.Add(model);
+                
+                var categoria = new Categoria{Nome = model.Nome};
+                _context.Add(categoria);
 
                 if (await _context.SaveChangesAsync() == true)
                     return true;
@@ -52,11 +55,11 @@ namespace MoviesRepository.Application.Services
             }
         }
 
-        public async Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries, bool tracking)
+        public async Task<Categoria> GetCategoriaById(int id, bool includeFilmes, bool includeSeries)
         {
             try
             {
-                var categoria = await _categoriaRepository.GetCategoriaById(id, includeFilmes, includeSeries, tracking);
+                var categoria = await _categoriaRepository.GetCategoriaById(id, includeFilmes, includeSeries);
                 if (categoria == null)
                     return null;
                 return categoria;

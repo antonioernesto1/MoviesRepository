@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MoviesRepository.Application.DTOs;
 using MoviesRepository.Application.Services.Interfaces;
+using MoviesRepository.Data;
 using MoviesRepository.Data.Repositories.Interfaces;
 using MoviesRepository.Domain;
 
@@ -8,19 +9,19 @@ namespace MoviesRepository.Application.Services
 {
     public class FilmeService : IFilmeService
     {
+        private readonly AppDbContext _teste;
         private readonly IRepository _context;
         private readonly IFilmeRepository _filmeRepository;
         private readonly ICategoriaRepository _categoriaRepository;
-        private readonly ICategoriaFilmeRepository _categoriasFilmeRepository;
         private readonly IMapper _mapper;
 
-        public FilmeService(IRepository context, IFilmeRepository filmeRepository, ICategoriaFilmeRepository categoriasFilmeRepository, IMapper mapper, ICategoriaRepository categoriaRepository)
+        public FilmeService(IRepository context, IFilmeRepository filmeRepository, IMapper mapper, ICategoriaRepository categoriaRepository, AppDbContext teste)
         {
             _context = context;
             _filmeRepository = filmeRepository;
-            _categoriasFilmeRepository = categoriasFilmeRepository;
             _categoriaRepository = categoriaRepository;
             _mapper = mapper;
+            _teste = teste;
         }
 
         public async Task<bool> AddFilme(FilmeInputModel model)
@@ -32,9 +33,11 @@ namespace MoviesRepository.Application.Services
 
                 var filme = _mapper.Map<Filme>(model);
                 filme.Categorias = new List<Categoria>();
-                filme.Categorias = await MapCategorias(model.CategoriasId, true);
+                var categorias = await MapCategorias(model.CategoriasId);
+                foreach(var categoria in categorias){
+                    filme.Categorias.Add(categoria);
+                }
 
-                _context.UpdateRange(filme.Categorias);
                 _context.Add(filme);
 
                 if (await _context.SaveChangesAsync() == true)
@@ -101,23 +104,15 @@ namespace MoviesRepository.Application.Services
                 var filmeAntigo = await _filmeRepository.GetFilmeById(id, false);
                 if (filmeAntigo == null)
                     return false;
-
-                var filme = _mapper.Map<Filme>(model);
+                
                 var relacoesAtualizadasIds = model.CategoriasId;
-                var relacoesRemovidas = RelacoesRemovidas(id, relacoesAtualizadasIds, filmeAntigo.CategoriasFilmes);
-                var relacoesAdicionadas = RelacoesAdicionadas(id, relacoesAtualizadasIds, filmeAntigo.CategoriasFilmes.Select(x => x.CategoriaId).ToList());
- 
-                foreach(var relacaoRemovida in relacoesRemovidas)
-                {
-                    _context.Delete(relacaoRemovida);
-                }
-                foreach (var relacaoAdicionada in relacoesAdicionadas)
-                {
-                    _context.Add(relacaoAdicionada);
-                }
-                filme.Categorias = null;
-                filme.Id = id;
-                _context.Update(filme);
+                _mapper.Map(model, filmeAntigo);
+                filmeAntigo.Id = id;
+                await modificarRelacoes(filmeAntigo, relacoesAtualizadasIds);
+                
+                // filme.Categorias = null;
+                // filme.Id = id;
+                // _context.Update(filme);
 
                 if (await _context.SaveChangesAsync() == true)
                     return true;
@@ -129,38 +124,25 @@ namespace MoviesRepository.Application.Services
                 throw new Exception(e.Message);
             }
         }
-        private async Task<List<Categoria>> MapCategorias(List<int> categoriasId, bool track)
+        private async Task<List<Categoria>> MapCategorias(List<int> categoriasId)
         {
             var categorias = new List<Categoria>();
             foreach (var categoriaId in categoriasId)
             {
-                var categoria = await _categoriaRepository.GetCategoriaById(categoriaId, false, false, track);
+                var categoria = await _categoriaRepository.GetCategoriaById(categoriaId, false, false);
                 if (categoria != null)
                     categorias.Add(categoria);
             }
             return categorias;
         }
 
-        private List<CategoriaFilme> RelacoesAdicionadas(int filmeId, List<int> relacoesAtualizadas, List<int> relacoesExistentes)
+        private async Task modificarRelacoes(Filme filme, List<int> idCategoriasAtualizadas)
         {
-            //var relacoes = _categoriasFilmeRepository.GetCategoriaFilmeByFilme(id).Select(r => r.CategoriaId).ToList();
-            var relacoesParaAdicionar = relacoesAtualizadas.Except(relacoesExistentes);
-            /*if (relacoesParaAdicionar.Count() == 0)
-                return null;*/
-            List<CategoriaFilme> relacoesAdicionadas = new List<CategoriaFilme>();
-            foreach (var relacaoParaAdicionar in relacoesParaAdicionar)
-            {
-                relacoesAdicionadas.Add(new CategoriaFilme { CategoriaId = relacaoParaAdicionar, FilmeId = filmeId });
-            }
-            return relacoesAdicionadas;
-
-        }
-
-        private List<CategoriaFilme> RelacoesRemovidas(int id, List<int> relacoesAtualizadas, List<CategoriaFilme> relacoesExistentes)
-        {
-            //var relacoes = _categoriasFilmeRepository.GetCategoriaFilmeByFilme(id).ToList();
-            var relacoesRemovidas = relacoesExistentes.Where(r => !relacoesAtualizadas.Contains(r.CategoriaId)).ToList();
-            return relacoesRemovidas;
+            var categoriasDeletadas = filme.Categorias.Where(x => !idCategoriasAtualizadas.Contains(x.Id)).ToList();
+            var idCategoriasAdicionadas = idCategoriasAtualizadas.Where(x => !filme.Categorias.Select(s => s.Id).Contains(x)).ToList();
+            var categoriasAdicionas = await MapCategorias(idCategoriasAdicionadas);
+            filme.Categorias.RemoveAll(x => categoriasDeletadas.Contains(x));
+            filme.Categorias.AddRange(categoriasAdicionas);
         }
     }
 }

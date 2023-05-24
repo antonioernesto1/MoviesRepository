@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using MoviesRepository.Application.DTOs;
 using MoviesRepository.Application.Services.Interfaces;
 using MoviesRepository.Domain;
 
@@ -36,7 +37,7 @@ namespace MoviesRepository.API.Controllers
             {
                 if (id <= 0)
                     return BadRequest("Id inválido");
-                var categoria = await _service.GetCategoriaById(id, includeFilmes, includeSeries, false);
+                var categoria = await _service.GetCategoriaById(id, includeFilmes, includeSeries);
                 if (categoria == null)
                     return NotFound("Nenhuma categoria encontrada");
                 return Ok(categoria);
@@ -47,7 +48,7 @@ namespace MoviesRepository.API.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Categoria categoria)
+        public async Task<IActionResult> Post([FromBody] CategoriaInputModel categoria)
         {
             try
             {
@@ -69,7 +70,7 @@ namespace MoviesRepository.API.Controllers
             {
                 if (id <= 0)
                     return BadRequest("Id inválido");
-                var categoria = await _service.GetCategoriaById(id, false, false, false);
+                var categoria = await _service.GetCategoriaById(id, false, false);
                 if (categoria == null)
                     return NotFound("Nenhuma categoria encontrada");
                 if (await _service.DeleteCategoria(categoria) == false)
@@ -88,7 +89,7 @@ namespace MoviesRepository.API.Controllers
             {
                 if (id <= 0)
                     return BadRequest("Id inválido");
-                var categoria = await _service.GetCategoriaById(id, false, false, false);
+                var categoria = await _service.GetCategoriaById(id, false, false);
                 if (categoria == null)
                     return NotFound("Nenhuma categoria encontrada");
                 if (await _service.UpdateCategoria(id, model) == false)
