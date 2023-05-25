@@ -15,5 +15,7 @@ namespace MoviesRepository.Application.Services.Interfaces
         Task<bool> DeleteSerie(int id);
         Task<Serie> GetSerieById(int id, bool includeAtores, bool includeTemporadas);
         Task<List<Serie>> GetSeries(bool includeAtores, bool includeTemporadas);
+        Task<List<Serie>> GetSeriesPopulares();
+        Task<List<Serie>> GetSerieByNome(string nome);
     }
 }

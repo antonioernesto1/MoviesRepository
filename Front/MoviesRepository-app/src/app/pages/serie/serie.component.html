@@ -1,0 +1,30 @@
+<section class="serie-section">
+  <div class="serie__container">
+    <h2>{{serie.nome}}</h2>
+    <h3>Trailer</h3>
+    <div class="serie__media">
+      <iframe width="60%" height="460" allowFullscreen="true" style="border: 0;"
+        [src]="serie.trailerEmbedUrl | safe:'resourceUrl'">
+      </iframe>
+    </div>
+    <h3>Informações</h3>
+    <div class="serie__infos">
+      <div class="info__capa">
+        <img height="350px" [src]="serie.capaUrl" alt="">
+      </div>
+      <div class="infos">
+        <div class="container">
+          <p>Categorias:
+          </p>
+          <button class="categoria" *ngFor="let categoria of serie.categorias"><a
+              href="">{{categoria.nome}}</a></button>
+        </div>
+        <p class="serie__data-lancamento">Ano de lançamento: {{serie.anoLancamento}}</p>
+        <div class="serie__sinopse">
+          <h3>Sinopse</h3>
+          <p>{{serie.sinopse}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -35,6 +35,56 @@ namespace MoviesRepository.API.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSerie(int id)
+        {
+            try
+            {
+                var serie = await _service.GetSerieById(id, false, false);
+                if(serie == null)
+                    return NotFound();
+                return Ok(serie);
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
+        [HttpGet("por-nome")]
+        public async Task<IActionResult> GetSeriesPorNome([FromQuery] string nome)
+        {
+            try
+            {
+                var series = await _service.GetSerieByNome(nome);
+                if(series == null)
+                    return NotFound();
+                return Ok(series);
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
+
+        [HttpGet("populares")]
+        public async Task<IActionResult> GetSeriesPopulares()
+        {
+            try
+            {
+                var series = await _service.GetSeriesPopulares();
+                if(series == null)
+                    return NotFound("Nenhuma série encontrada");
+                return Ok(series);
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] SerieInputModel model)
         {

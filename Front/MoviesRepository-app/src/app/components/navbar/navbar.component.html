@@ -13,8 +13,8 @@
         </ul>
       </div>
       <div class="navbar_pesquisa">
-        <input type="text">
-        <button routerLink="/pesquisa">
+        <input [(ngModel)]="pesquisa" type="text">
+        <button (click)="pesquisar()">
           <fa-icon [icon]="faSearch" class="pesquisa_icon"></fa-icon>
         </button>
       </div>

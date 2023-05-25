@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -14,6 +15,7 @@ import { CardAtorComponent } from './components/card-ator/card-ator.component';
 import { FilmeComponent } from './pages/filme/filme.component';
 import { SafePipe } from './helpers/safe.pipe';
 import { PesquisaComponent } from './pages/pesquisa/pesquisa.component';
+import { SerieComponent } from './pages/serie/serie.component';
 
 @NgModule({
   declarations: [
@@ -26,12 +28,14 @@ import { PesquisaComponent } from './pages/pesquisa/pesquisa.component';
     FilmeComponent,
     SafePipe,
     PesquisaComponent,
+    SerieComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FontAwesomeModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

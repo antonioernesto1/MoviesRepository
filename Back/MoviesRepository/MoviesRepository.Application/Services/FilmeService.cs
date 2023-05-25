@@ -127,7 +127,22 @@ namespace MoviesRepository.Application.Services
                 throw;
             }
         }
-
+        
+         public async Task<List<Filme>> GetFilmesByNome(string nome)
+        {
+            try
+            {
+                var filmes = await _filmeRepository.GetFilmesByNome(nome);
+                if(!filmes.Any())
+                    return null;
+                return filmes;
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
         public async Task<bool> UpdateFilme(int id, FilmeInputModel model)
         {
             try
@@ -140,10 +155,6 @@ namespace MoviesRepository.Application.Services
                 _mapper.Map(model, filmeAntigo);
                 filmeAntigo.Id = id;
                 await modificarRelacoes(filmeAntigo, relacoesAtualizadasIds);
-                
-                // filme.Categorias = null;
-                // filme.Id = id;
-                // _context.Update(filme);
 
                 if (await _context.SaveChangesAsync() == true)
                     return true;

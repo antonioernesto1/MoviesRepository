@@ -17,5 +17,6 @@ namespace MoviesRepository.Application.Services.Interfaces
         Task<List<Filme>> GetFilmes(bool includeAtores);
         Task<List<Filme>> GetLancamentos();
         Task<List<Filme>> GetPopulares();
+        Task<List<Filme>> GetFilmesByNome(string nome);
     }
 }

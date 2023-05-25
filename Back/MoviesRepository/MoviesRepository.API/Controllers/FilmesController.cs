@@ -85,6 +85,23 @@ namespace MoviesRepository.API.Controllers
             }
         }
 
+        [HttpGet("por-nome")]
+        public async Task<IActionResult> GetFilmesPorNome([FromQuery] string nome)
+        {
+            try
+            {
+                var filmes = await _service.GetFilmesByNome(nome);
+                if(filmes == null)
+                    return NotFound();
+                return Ok(filmes);
+            }
+            catch (System.Exception)
+            {
+                
+                throw;
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] FilmeInputModel filme)
         {

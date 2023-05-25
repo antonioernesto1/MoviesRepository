@@ -45,5 +45,11 @@ namespace MoviesRepository.Data.Repositories
             var query = _context.Filmes.AsQueryable();
             return await query.Where(x => x.isPopular == true).OrderByDescending(x => x.AnoLancamento).Take(6).ToListAsync();
         }
+
+        public async Task<List<Filme>> GetFilmesByNome(string nome)
+        {
+            var query = _context.Filmes.AsQueryable();
+            return await query.Where(x => x.Nome.Contains(nome)).OrderByDescending(x => x.isPopular).ToListAsync();
+        }
     }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Filme } from 'src/app/models/filme';
 
@@ -21,5 +21,10 @@ export class FilmeService {
   }
   public getFilmeById(id: number): Observable<Filme> {
     return this.http.get<Filme>(`${this.apiUrl}/${id}`);
+  }
+  public getFilmesPorNome(nome: string):Observable<Filme[]>{
+    const params = new HttpParams()
+      .set('nome', nome);
+    return this.http.get<Filme[]>(`${this.apiUrl}/por-nome`, {params})
   }
 }

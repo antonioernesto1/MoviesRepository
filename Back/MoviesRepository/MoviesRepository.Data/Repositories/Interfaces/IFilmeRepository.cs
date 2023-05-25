@@ -13,5 +13,6 @@ namespace MoviesRepository.Data.Repositories.Interfaces
         Task<Filme> GetFilmeById(int id, bool includeAtores);
         Task<List<Filme>> GetLancamentos();
         Task<List<Filme>> GetPopulares();
+        Task<List<Filme>> GetFilmesByNome(string nome);
     }
 }

@@ -16,29 +16,28 @@ export class HomeComponent implements OnInit {
   ) {}
   filmes_lancamentos: Filme[] = [];
   filmes_populares: Filme[] = [];
-  series: Serie[] = [];
-  ngOnInit(): void {
-    this.getFilmesLancamentos();
-    this.getFilmesPopulares();
-    this.getAllSeries();
+  series_populares: Serie[] = [];
+  async ngOnInit() {
+    await this.getFilmesLancamentos();
+    await this.getFilmesPopulares();
+    await this.getSeriesPopulares();
   }
 
-  getFilmesLancamentos() {
-    this.filmeService.getLancamentos().subscribe((filmes) => {
+  async getFilmesLancamentos() {
+    await this.filmeService.getLancamentos().subscribe((filmes) => {
       this.filmes_lancamentos = filmes;
       console.log(filmes);
     });
   }
-  getFilmesPopulares() {
-    this.filmeService.getPopulares().subscribe((filmes) => {
+  async getFilmesPopulares() {
+    await this.filmeService.getPopulares().subscribe((filmes) => {
       this.filmes_populares = filmes;
       console.log(filmes);
     });
   }
-  getAllSeries() {
-    this.serieService.getAllSeries().subscribe((series) => {
-      this.series = series;
-      console.log(this.series[0]);
+  async getSeriesPopulares() {
+    await this.serieService.getAllSeries().subscribe((series) => {
+      this.series_populares = series;
     });
   }
 }

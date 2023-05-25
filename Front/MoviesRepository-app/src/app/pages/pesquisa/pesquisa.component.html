@@ -1,1 +1,17 @@
-<p>pesquisa works!</p>
+<section>
+  <div class="container">
+    <h2>Buscar por: {{nome}}</h2>
+  </div>
+  <div *ngIf="filmes" class="container">
+    <h2>Filmes</h2>
+    <div class="lista_filmes">
+      <app-card-filme *ngFor="let filme of filmes" [filme]="filme"></app-card-filme>
+    </div>
+  </div>
+  <div *ngIf="series" class="container">
+    <h2>Séries</h2>
+    <div class="lista_series">
+      <app-card-serie *ngFor="let serie of series" [serie]="serie"></app-card-serie>
+    </div>
+  </div>
+</section>
